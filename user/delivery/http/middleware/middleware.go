@@ -1,6 +1,9 @@
 package middleware
 
-import "github.com/labstack/echo"
+import (
+	"github.com/labstack/echo"
+	"github.com/labstack/echo/middleware"
+)
 
 // data-struct for middleware
 type GoMiddleware struct {
@@ -18,3 +21,7 @@ func (m *GoMiddleware) CORS(next echo.HandlerFunc) echo.HandlerFunc {
 func InitMiddleware() *GoMiddleware {
 	return &GoMiddleware{}
 }
+
+var IsAuthenticated = middleware.JWTWithConfig(middleware.JWTConfig{
+	SigningKey: []byte("B0mb45Tic"),
+})

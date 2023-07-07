@@ -3,6 +3,8 @@ package repository
 import (
 	"encoding/base64"
 	"time"
+
+	"golang.org/x/crypto/bcrypt"
 )
 
 const (
@@ -27,4 +29,13 @@ func EncodeCursor(t time.Time) string {
 	timeString := t.Format(timeFormat)
 
 	return base64.StdEncoding.EncodeToString([]byte(timeString))
+}
+
+func EncodePassword(pass string) (string, error) {
+	hash, err := bcrypt.GenerateFromPassword([]byte(pass), bcrypt.DefaultCost)
+	if err != nil {
+		return "", err
+	}
+
+	return string(hash), nil
 }
